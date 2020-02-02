@@ -4,11 +4,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
-import 'package:node/newscell.dart';
-import 'package:node/newslistview.dart';
+import 'package:node/news/widgets/news_cells.dart';
 
-import 'constants.dart';
-import 'modle/news.dart';
+import '../../common/constants.dart';
+import '../model/news.dart';
+
+class NewsListView extends StatefulWidget{
+
+  @override
+  State<StatefulWidget> createState() {
+    return new NewsState();
+  }
+
+}
 
 class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
 
@@ -31,7 +39,6 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
           return NewsCell(news);
         }
     );
-
     return listView;
 
   }

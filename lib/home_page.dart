@@ -2,8 +2,16 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:node/homepage.dart';
-import 'package:node/newslistview.dart';
+
+import 'news/widgets/news_listview.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return new HomePageState();
+  }
+
+}
 
 class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
 
@@ -58,7 +66,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
         return null;
       },
       controller: _pageController,
-    physics: NeverScrollableScrollPhysics(),);
+      physics: NeverScrollableScrollPhysics(),);
 
     return new Scaffold(
       bottomNavigationBar: _navigationBar,
