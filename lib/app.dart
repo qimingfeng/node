@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:node/home.dart';
+import 'package:node/homepage.dart';
 
 class App extends StatelessWidget {
 
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.white
       ),
-      home: new Home(),
+      home: new HomePage(),
     );
   }
 
