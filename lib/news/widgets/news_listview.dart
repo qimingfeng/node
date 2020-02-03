@@ -36,11 +36,24 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
 
           News news = newsList[i];
 
-          return NewsCellNoImage(news);
+          return _buildCell(news);
         }
     );
     return listView;
 
+  }
+
+  Widget _buildCell(News news) {
+    if (news == null) return null;
+    Widget cell = null;
+    if (news.imgs == null || news.imgs.isEmpty) {
+      cell = NewsCellNoImage(news);
+    } else if (news.imgs.length < 3) {
+      cell = NewsCellOneImage(news);
+    } else {
+      cell = NewsCellThreeImage(news);
+    }
+    return cell;
   }
 
   Future<bool> _retrieveData(List<News> newsList, bool refresh) {

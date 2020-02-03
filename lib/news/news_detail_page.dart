@@ -1,6 +1,8 @@
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:node/common/constants.dart';
@@ -34,12 +36,12 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
 
   int newsId;
 
-  NewsDetail newsDetail;
+  NewsDetail _newsDetail;
 
-  List<String> dataList = new List();
+  List<String> _dataList = new List();
 
-  RegExp imgReg = new RegExp(r"\[img][\S\s]*?\[/img]");
-  RegExp urlReg = new RegExp("src=\"[\\S\\s]*?\"");
+  RegExp _imgReg = new RegExp(r"\[img][\S\s]*?\[/img]");
+  RegExp _urlReg = new RegExp("src=\"[\\S\\s]*?\"");
 
   NewsDetailPageSate(this.newsId);
 
@@ -49,7 +51,7 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
 
     _fetchDetail(newsId)
         .then((result) {
-          newsDetail = result;
+          _newsDetail = result;
           _convert();
           setState(() {
 
@@ -63,19 +65,19 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(newsDetail == null ? "" : newsDetail.title),
+        title: new Text(_newsDetail == null ? "" : _newsDetail.title),
       ),
       body: new Container(
         child: new ListView.builder(
           padding: const EdgeInsets.all(16.0),
-          itemCount: dataList == null ? 0 : dataList.length,
+          itemCount: _dataList == null ? 0 : _dataList.length,
           itemBuilder: (context, i) {
-            if(i < dataList.length) {
-              String content = dataList[i];
+            if(i < _dataList.length) {
+              String content = _dataList[i];
               if (content != null && content.startsWith("http")) {
                 return _buildImage(content);
               } else {
-                return new Text(dataList[i], style: new TextStyle(fontSize: 16.0),);
+                return new Text(_dataList[i], style: new TextStyle(fontSize: 16.0),);
               }
             }
             return null;
@@ -89,21 +91,26 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
     return new Container(
       padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
       height: 200,
-      child: Image.network(url),
+      child: CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl: url,
+        placeholder: (context, url) => new Icon(Icons.image),
+        errorWidget: (context, url, error) => new Icon(Icons.error),
+      ),
     );
   }
 
   void _convert() {
-    String content = newsDetail.content;
+    String content = _newsDetail.content;
     while(true) {
-      String img = imgReg.stringMatch(content);
+      String img = _imgReg.stringMatch(content);
       if(img != null && img.isNotEmpty) {
         List<String> data = content.split(img);
-        dataList.add(data[0].trim());
-        dataList.add(_parseUrl(img));
+        _dataList.add(data[0].trim());
+        _dataList.add(_parseUrl(img));
         content = data[1];
       } else {
-        dataList.add(content.trim());
+        _dataList.add(content.trim());
         break;
       }
     }
@@ -113,7 +120,7 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
 
   String _parseUrl(String data) {
     if (data == null || data.isEmpty) return null;
-    String url = urlReg.stringMatch(data);
+    String url = _urlReg.stringMatch(data);
     if (url != null) {
       url = url.substring(5, url.length - 1);
       if (url.startsWith("//")) {

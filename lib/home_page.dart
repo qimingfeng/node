@@ -15,8 +15,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
 
-  int _page = 0;
-
   CurvedNavigationBar _navigationBar;
   PageView _pageView;
   PageController _pageController;
@@ -44,7 +42,6 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
       ],
       onTap: (index) {
         setState(() {
-          _page = index;
           _pageController.animateToPage(index, duration: Duration(microseconds: 300), curve: Curves.ease);
         });
       },
@@ -66,7 +63,8 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
         return null;
       },
       controller: _pageController,
-      physics: NeverScrollableScrollPhysics(),);
+      physics: NeverScrollableScrollPhysics(),
+    );
 
     return new Scaffold(
       bottomNavigationBar: _navigationBar,
