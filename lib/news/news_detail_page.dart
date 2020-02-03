@@ -1,16 +1,18 @@
 
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:node/common/constants.dart';
+import 'package:node/news/model/news_detail.dart';
 
 import 'model/news.dart';
 
-class NewsDetailPage extends StatelessWidget {
+class NewsDetailPage extends StatefulWidget {
 
   News news;
 
-  List<String> dataList = new List();
-
-  RegExp imgReg = new RegExp(r"\[img][\S\s]*?\[/img]");
-  RegExp urlReg = new RegExp("src=\"[\\S\\s]*?\"");
+  NewsDetailPage(this.news);
 
   static void push(BuildContext context, News news) {
     Navigator.of(context).push(
@@ -21,20 +23,52 @@ class NewsDetailPage extends StatelessWidget {
     );
   }
 
-  NewsDetailPage(this.news);
+  @override
+  State<StatefulWidget> createState() {
+    return new NewsDetailPageSate(news.id);
+  }
+
+}
+
+class NewsDetailPageSate extends State<NewsDetailPage> {
+
+  int newsId;
+
+  NewsDetail newsDetail;
+
+  List<String> dataList = new List();
+
+  RegExp imgReg = new RegExp(r"\[img][\S\s]*?\[/img]");
+  RegExp urlReg = new RegExp("src=\"[\\S\\s]*?\"");
+
+  NewsDetailPageSate(this.newsId);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchDetail(newsId)
+        .then((result) {
+          newsDetail = result;
+          _convert();
+          setState(() {
+
+          });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    _convert();
-
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(news.title),
+        title: new Text(newsDetail == null ? "" : newsDetail.title),
       ),
       body: new Container(
         child: new ListView.builder(
           padding: const EdgeInsets.all(16.0),
+          itemCount: dataList == null ? 0 : dataList.length,
           itemBuilder: (context, i) {
             if(i < dataList.length) {
               String content = dataList[i];
@@ -60,7 +94,7 @@ class NewsDetailPage extends StatelessWidget {
   }
 
   void _convert() {
-    String content = news.content;
+    String content = newsDetail.content;
     while(true) {
       String img = imgReg.stringMatch(content);
       if(img != null && img.isNotEmpty) {
@@ -74,7 +108,7 @@ class NewsDetailPage extends StatelessWidget {
       }
     }
 //    dataList.clear();
-//    dataList.add(news.content);
+//    dataList.add(newsDetail.content);
   }
 
   String _parseUrl(String data) {
@@ -89,5 +123,12 @@ class NewsDetailPage extends StatelessWidget {
     return url != null ? url : data;
   }
 
+  Future<NewsDetail> _fetchDetail(int id) async {
+    String url = Constants.URL_NEWS_DETAIL_PRE + "?newsid=" + id.toString();
+    Response response = await new Dio().get(url);
+    Map map = JsonDecoder().convert(response.data);
+    NewsDetail detail = NewsDetail.fromJson(map);
+    return detail;
+  }
 
 }

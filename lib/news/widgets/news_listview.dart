@@ -36,7 +36,7 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
 
           News news = newsList[i];
 
-          return NewsCell(news);
+          return NewsCellNoImage(news);
         }
     );
     return listView;
@@ -52,7 +52,7 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
 
       String id = newsList.isNotEmpty ? newsList.last.id.toString() : "";
 
-      String url = Constants.URL_GET_NEW_PRE + "?pagesize=30&minid=" + id;
+      String url = Constants.URL_GET_NEWS_PRE + "?pagesize=30&minid=" + id;
 
       print(url);
 

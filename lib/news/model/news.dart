@@ -1,20 +1,29 @@
 
+import 'dart:convert';
+
 class News {
 
   int id;
   int time;
   String title;
-  String content;
+  String url;
+  String mainKey;
+  List<dynamic> imgs;
   List<dynamic> keys;
 
   News();
 
-  News.fromJson(Map<String, dynamic> map)
-      : id = map['newsid'],
-        time= map['time'],
-        title = map['title'],
-        content = map['content'],
-        keys = map['keywords'];
+  News.fromJson(Map<String, dynamic> map) {
+    id = map['newsid'];
+    time= map['time'];
+    title = map['title'];
+    url = map['url'];
+    imgs = map['imgs'];
+    Map prekeys = map['prekeys'];
+    mainKey = prekeys['main'];
+    keys = prekeys['list'];
+  }
+
 
 
 }
