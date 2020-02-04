@@ -11,21 +11,33 @@ import '../model/news.dart';
 
 class NewsListView extends StatefulWidget{
 
+  String keyword;
+  String relativeKeyword;
+
+  NewsListView({this.keyword, this.relativeKeyword});
+
   @override
   State<StatefulWidget> createState() {
-    return new NewsState();
+    return new NewsState(keyword: keyword, relativeKeyword: relativeKeyword);
   }
 
 }
 
 class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
 
-  InfiniteListView listView;
+  InfiniteListView _listView;
+
+  String keyword;
+
+  String relativeKeyword;
+
+  NewsState({this.keyword, this.relativeKeyword});
 
   @override
   Widget build(BuildContext context) {
 
-    listView = new InfiniteListView<News>(
+    _listView = new InfiniteListView<News>(
+      headerBuilder: null,
         onRetrieveData: (int i, List<News> news, bool refresh) {
           print(i);
           print(news.length);
@@ -39,13 +51,13 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
           return _buildCell(news);
         }
     );
-    return listView;
+    return _listView;
 
   }
 
   Widget _buildCell(News news) {
     if (news == null) return null;
-    Widget cell = null;
+    Widget cell;
     if (news.imgs == null || news.imgs.isEmpty) {
       cell = NewsCellNoImage(news);
     } else if (news.imgs.length < 3) {
@@ -66,6 +78,14 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
       String id = newsList.isNotEmpty ? newsList.last.id.toString() : "";
 
       String url = Constants.URL_GET_NEWS_PRE + "?pagesize=30&minid=" + id;
+
+      if(keyword != null && keyword.isNotEmpty && keyword != Constants.KEYWORD_DEFAULT) {
+        url = url + "&mainentity=" + keyword;
+      }
+
+      if(relativeKeyword != null && relativeKeyword.isNotEmpty && relativeKeyword != Constants.KEYWORD_DEFAULT) {
+        url = url + "&otherentity=" + relativeKeyword;
+      }
 
       print(url);
 

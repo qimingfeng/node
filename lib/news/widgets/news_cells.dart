@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:node/news/news_detail_page.dart';
+import 'package:node/news/news_list_page.dart';
 
 import '../model/news.dart';
 
@@ -30,7 +31,9 @@ class NewsCellNoImage extends StatelessWidget {
             child: Text(_news.keys.toString(),
               style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
             onTap: () {
-              print("sssssssssssssss");
+              if(_news.keys.isNotEmpty) {
+                NewsListPage.push(context: context, keyword: _news.keys.first);
+              }
             },
           ),
         ],
@@ -65,8 +68,15 @@ class NewsCellOneImage extends StatelessWidget {
                 children: <Widget>[
                   Text(_news.title,
                     style: new TextStyle(fontSize: 16.0),),
-                  Text(_news.keys.toString(),
-                    style: new TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
+                  GestureDetector (
+                    child: Text(_news.keys.toString(),
+                      style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
+                    onTap: () {
+                      if(_news.keys.isNotEmpty) {
+                        NewsListPage.push(context: context, keyword: _news.keys.first);
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -110,8 +120,15 @@ class NewsCellThreeImage extends StatelessWidget {
           children: <Widget>[
             Text(_news.title,
               style: new TextStyle(fontSize: 16.0),),
-            Text(_news.keys.toString(),
-              style: new TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
+            GestureDetector (
+              child: Text(_news.keys.toString(),
+                style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
+              onTap: () {
+                if(_news.keys.isNotEmpty) {
+                  NewsListPage.push(context: context, keyword: _news.keys.first);
+                }
+              },
+            ),
             Row (
               children: <Widget>[
                 Expanded(
