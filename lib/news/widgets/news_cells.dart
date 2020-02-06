@@ -5,6 +5,7 @@ import 'package:node/news/news_detail_page.dart';
 import 'package:node/news/news_list_page.dart';
 
 import '../model/news.dart';
+import '../news_detail_web_page.dart';
 
 class NewsCellNoImage extends StatelessWidget {
 
@@ -20,7 +21,7 @@ class NewsCellNoImage extends StatelessWidget {
     color: Colors.white,
     child: GestureDetector(
       onTap: () {
-        NewsDetailPage.push(context, _news);
+        NewsCellUtils.onCellTap(context, _news);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +59,7 @@ class NewsCellOneImage extends StatelessWidget {
       color: Colors.white,
       child: GestureDetector(
         onTap: () {
-          NewsDetailPage.push(context, _news);
+          NewsCellUtils.onCellTap(context, _news);
         },
         child: Row(
           children: <Widget>[
@@ -113,7 +114,7 @@ class NewsCellThreeImage extends StatelessWidget {
       color: Colors.white,
       child: GestureDetector(
         onTap: () {
-          NewsDetailPage.push(context, _news);
+          NewsCellUtils.onCellTap(context, _news);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,6 +174,14 @@ class NewsCellThreeImage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+}
+
+class NewsCellUtils {
+
+  static void onCellTap(BuildContext context, News news) {
+    NewsDetailWebPage.push(context, news);
   }
 
 }

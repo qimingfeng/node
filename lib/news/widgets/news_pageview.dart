@@ -129,6 +129,7 @@ class NewsPageViewState extends State<NewsPageView> with TickerProviderStateMixi
     print(_keywordList.length);
 
     setState(() {
+      _tabController.dispose();
       _tabController = TabController(
         length: _keywordList.length,
         vsync: this,
