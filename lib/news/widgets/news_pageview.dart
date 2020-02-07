@@ -144,9 +144,9 @@ class NewsPageViewState extends State<NewsPageView> with TickerProviderStateMixi
     });
   }
 
-  _onPageChange(int index, {PageController pageController, TabController tabController}) {
+  void _onPageChange (int index, {PageController pageController, TabController tabController}) {
     if (pageController != null) {
-      _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+      _pageController.jumpToPage(index);
     } else {
       _tabController.animateTo(index);
     }

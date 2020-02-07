@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:node/home_page.dart';
+import 'package:node/home/home_page.dart';
 
 class App extends StatelessWidget {
 

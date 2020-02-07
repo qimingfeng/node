@@ -2,9 +2,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:node/news/widgets/news_pageview.dart';
-
-import 'common/constants.dart';
+import 'package:node/home/widgets/me_fragment.dart';
+import 'package:node/home/widgets/news_fragment.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -52,13 +51,13 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
       itemBuilder: (context, i) {
         switch (i) {
           case 0 :
-            return NewsPageView(keyword: Constants.KEYWORD_DEFAULT,);
+            return NewsFragment();
             break;
           case 1:
-            return Container(color: Color.fromARGB(255, 200, 200, 200),);
+            return Container(color: Colors.white);
             break;
           case 2:
-            return Container(color: Color.fromARGB(255, 160, 160, 160),);
+            return MeFragment();
             break;
         }
         return null;
@@ -68,12 +67,8 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
     );
 
     return new Scaffold(
-      appBar: AppBar(title: Text("新闻节点"), centerTitle: true,),
       bottomNavigationBar: _navigationBar,
-      body:new Container(
-        padding: const EdgeInsets.all(0.0),
-        child: _pageView,
-      ),
+      body: _pageView,
     );
   }
 

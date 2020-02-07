@@ -1,7 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:node/news/news_detail_page.dart';
+import 'package:node/common/DateUtils.dart';
 import 'package:node/news/news_list_page.dart';
 
 import '../model/news.dart';
@@ -9,9 +9,9 @@ import '../news_detail_web_page.dart';
 
 class NewsCellNoImage extends StatelessWidget {
 
-  News _news;
+  News news;
 
-  NewsCellNoImage(this._news);
+  NewsCellNoImage(this.news);
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +21,13 @@ class NewsCellNoImage extends StatelessWidget {
     color: Colors.white,
     child: GestureDetector(
       onTap: () {
-        NewsCellUtils.onCellTap(context, _news);
+        NewsCellUtils.onCellTap(context, news);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(_news.title,
-          style: new TextStyle(fontSize: 16.0),),
-          GestureDetector (
-            child: Text(_news.keys.toString(),
-              style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
-            onTap: () {
-              if(_news.keys.isNotEmpty) {
-                NewsListPage.push(context: context, keyword: _news.keys.first);
-              }
-            },
-          ),
+          NewsCellUtils.buildTitle(context, news),
+          NewsCellUtils.buildTail(context, news),
         ],
       ),
     ),
@@ -47,9 +38,9 @@ class NewsCellNoImage extends StatelessWidget {
 
 class NewsCellOneImage extends StatelessWidget {
 
-  News _news;
+  News news;
 
-  NewsCellOneImage(this._news);
+  NewsCellOneImage(this.news);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +50,7 @@ class NewsCellOneImage extends StatelessWidget {
       color: Colors.white,
       child: GestureDetector(
         onTap: () {
-          NewsCellUtils.onCellTap(context, _news);
+          NewsCellUtils.onCellTap(context, news);
         },
         child: Row(
           children: <Widget>[
@@ -67,31 +58,12 @@ class NewsCellOneImage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(_news.title,
-                    style: new TextStyle(fontSize: 16.0),),
-                  GestureDetector (
-                    child: Text(_news.keys.toString(),
-                      style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
-                    onTap: () {
-                      if(_news.keys.isNotEmpty) {
-                        NewsListPage.push(context: context, keyword: _news.keys.first);
-                      }
-                    },
-                  ),
+                  NewsCellUtils.buildTitle(context, news),
+                  NewsCellUtils.buildTail(context, news),
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-              width: 80,
-              height: 80,
-              child:  CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: _news.imgs[0],
-                placeholder: (context, url) => new Icon(Icons.image),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
-              ),
-            ),
+            NewsCellUtils.buildImage(context, news.imgs, 0),
           ],
         ),
       ),
@@ -102,9 +74,9 @@ class NewsCellOneImage extends StatelessWidget {
 
 class NewsCellThreeImage extends StatelessWidget {
 
-  News _news;
+  News news;
 
-  NewsCellThreeImage(this._news);
+  NewsCellThreeImage(this.news);
 
   @override
   Widget build(BuildContext context) {
@@ -114,59 +86,23 @@ class NewsCellThreeImage extends StatelessWidget {
       color: Colors.white,
       child: GestureDetector(
         onTap: () {
-          NewsCellUtils.onCellTap(context, _news);
+          NewsCellUtils.onCellTap(context, news);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(_news.title,
-              style: new TextStyle(fontSize: 16.0),),
-            GestureDetector (
-              child: Text(_news.keys.toString(),
-                style: TextStyle(fontSize: 12.0, color: Colors.grey), maxLines: 1,),
-              onTap: () {
-                if(_news.keys.isNotEmpty) {
-                  NewsListPage.push(context: context, keyword: _news.keys.first);
-                }
-              },
-            ),
+            NewsCellUtils.buildTitle(context, news),
+            NewsCellUtils.buildTail(context, news),
             Row (
               children: <Widget>[
                 Expanded(
-                  child: Container (
-                    padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
-                    height: 80,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: _news.imgs[0],
-                      placeholder: (context, url) => new Icon(Icons.image),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                    ),
-                  ),
+                  child: NewsCellUtils.buildImage(context, news.imgs, 0),
                 ),
                 Expanded(
-                  child: Container (
-                    padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
-                    height: 80,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: _news.imgs[1],
-                      placeholder: (context, url) => new Icon(Icons.image),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                    ),
-                  ),
+                  child: NewsCellUtils.buildImage(context, news.imgs, 1),
                 ),
                 Expanded(
-                  child: Container (
-                    padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
-                    height: 80,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: _news.imgs[2],
-                      placeholder: (context, url) => new Icon(Icons.image),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                    ),
-                  ),
+                  child: NewsCellUtils.buildImage(context, news.imgs, 2),
                 ),
               ],
             ),
@@ -182,6 +118,47 @@ class NewsCellUtils {
 
   static void onCellTap(BuildContext context, News news) {
     NewsDetailWebPage.push(context, news);
+  }
+
+  static Widget buildImage(BuildContext context, List<dynamic> imgs, int index) {
+    String url = imgs != null && index >= 0 && index < imgs.length ? imgs[index] : "";
+    bool last = imgs != null && index == imgs.length - 1;
+    bool one = imgs.length < 3;
+    return Container (
+      padding: EdgeInsets.fromLTRB(one ? 8.0 : 0 , 8.0, 8.0, last ? 0 : 8.0),
+      height: 80,
+      width: one ? 120 : 0,
+      child: CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl: url,
+        placeholder: (context, url) => new Icon(Icons.image),
+        errorWidget: (context, url, error) => new Icon(Icons.error),
+      ),
+    );
+  }
+
+  static Widget buildTitle(BuildContext context, News news) {
+    return Text(news.title,
+      style: new TextStyle(fontSize: 16.0),);
+  }
+
+  static Widget buildTail(BuildContext context, News news) {
+
+  List<dynamic> keys = news.keys.length > 3 ? news.keys.sublist(0, 3) : news.keys;
+
+    return Container (
+      padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+      child:
+          GestureDetector (
+            child: Text(keys.toString() + "  " + DateUtils.convertTimeTips(news.time),
+              style: TextStyle(fontSize: 14.0, color: Colors.grey), maxLines: 1,),
+            onTap: () {
+              if(news.mainKey != null) {
+                NewsListPage.push(context: context, keyword: news.mainKey);
+              }
+            },
+          ),
+    );
   }
 
 }

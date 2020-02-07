@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
+import 'package:node/common/DateUtils.dart';
 import 'package:node/news/widgets/news_cells.dart';
 
 import '../../common/constants.dart';
@@ -47,6 +48,7 @@ class NewsState extends State<NewsListView> with AutomaticKeepAliveClientMixin {
         itemBuilder: (List<News> newsList, int i, BuildContext context) {
 
           News news = newsList[i];
+          DateUtils.convertTimeTips(news.time);
 
           return _buildCell(news);
         }

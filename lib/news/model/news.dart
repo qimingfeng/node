@@ -1,6 +1,4 @@
 
-import 'dart:convert';
-
 class News {
 
   int id;
@@ -8,8 +6,8 @@ class News {
   String title;
   String url;
   String mainKey;
-  List<dynamic> imgs;
-  List<dynamic> keys;
+  List<dynamic> imgs = new List();
+  List<dynamic> keys = new List();
 
   News();
 
@@ -21,7 +19,17 @@ class News {
     imgs = map['imgs'];
     Map prekeys = map['prekeys'];
     mainKey = prekeys['main'];
-    keys = prekeys['list'];
+
+    keys.add(mainKey);
+    List<dynamic> list = prekeys['list'];
+    if(list != null && list.isNotEmpty) {
+      for(var i = 0; i < list.length; i ++) {
+        if(list[i] != mainKey) {
+          keys.add(list[i]);
+        }
+      }
+    }
+
   }
 
 
