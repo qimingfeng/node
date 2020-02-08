@@ -8,6 +8,7 @@ class NewsFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold (
+      backgroundColor: Colors.white,
       appBar: AppBar(title: Text("新闻节点"), centerTitle: true,),
       body: NewsPageView(keyword: Constants.KEYWORD_DEFAULT,),
     );

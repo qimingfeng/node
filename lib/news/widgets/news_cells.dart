@@ -1,7 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:node/common/DateUtils.dart';
+import 'package:node/common/date_utils.dart';
 import 'package:node/news/news_list_page.dart';
 
 import '../model/news.dart';

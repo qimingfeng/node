@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:node/common/constants.dart';
 import 'package:node/news/model/news.dart';
 import 'package:node/news/news_list_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebPage extends StatefulWidget {
@@ -29,26 +31,34 @@ class NewsDetailWebPageState extends State<NewsDetailWebPage> with TickerProvide
 
   News news;
 
-  TabController _tabController;
+  bool _saved;
 
   NewsDetailWebPageState(this.news);
 
   @override
   void initState() {
-
-    _tabController = new TabController(length: news.keys.length, vsync: this);
-
+    _saved = false;
+    _loadData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    print(news.url);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(news.title),
+        title: Text(news.mainKey),
+        actions: <Widget>[
+          GestureDetector (
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Icon(_saved ? Icons.star : Icons.star_border),
+            ),
+            onTap: () {
+              _saveData();
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -80,6 +90,32 @@ class NewsDetailWebPageState extends State<NewsDetailWebPage> with TickerProvide
         ],
       ),
     );
+  }
+
+  _loadData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> list = preferences.getStringList(Constants.SP_KEY_FAVOURITE_KEYWORDS);
+    print(list);
+    setState(() {
+      _saved = list != null && list.contains(news.mainKey);
+    });
+  }
+
+  _saveData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> list = preferences.getStringList(Constants.SP_KEY_FAVOURITE_KEYWORDS);
+    if(list == null) {
+      list = new List();
+    }
+    if(list.contains(news.mainKey)) {
+      list.remove(news.mainKey);
+    } else {
+      list.add(news.mainKey);
+    }
+    await preferences.setStringList(Constants.SP_KEY_FAVOURITE_KEYWORDS, list);
+    setState(() {
+      _saved = list != null && list.contains(news.mainKey);
+    });
   }
 
 }

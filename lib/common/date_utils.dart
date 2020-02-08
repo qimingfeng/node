@@ -2,10 +2,8 @@
 class DateUtils {
 
   static String convertTimeTips(int timestamp) {
-    print("time -> " + timestamp.toString());
     String timeTips = "";
     int now = DateTime.now().millisecondsSinceEpoch;
-    print("now -> " + now.toString());
     int seconds = ((now - timestamp) / 1000).floor();
     if (seconds < 60) {
       timeTips = seconds.toString() + "秒前";
