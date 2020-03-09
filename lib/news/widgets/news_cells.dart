@@ -19,6 +19,7 @@ class NewsCellNoImage extends StatelessWidget {
     padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
     color: Colors.white,
     child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         NewsCellUtils.onCellTap(context, news);
       },
@@ -48,6 +49,7 @@ class NewsCellOneImage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
       color: Colors.white,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           NewsCellUtils.onCellTap(context, news);
         },
@@ -84,6 +86,7 @@ class NewsCellThreeImage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
       color: Colors.white,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           NewsCellUtils.onCellTap(context, news);
         },

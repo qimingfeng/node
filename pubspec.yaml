@@ -30,6 +30,7 @@ dependencies:
   webview_flutter: ^0.3.19
   dio: ^3.0.7
   shared_preferences: ^0.5.6
+  rxdart: ^0.21.0
 
 dev_dependencies:
   flutter_test:
