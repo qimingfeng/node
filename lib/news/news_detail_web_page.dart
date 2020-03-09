@@ -8,21 +8,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailWebPage extends StatefulWidget {
 
-  News news;
-
-  static void push(BuildContext context, News news) {
-    Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (context) {
-              return NewsDetailWebPage(news);
-            }));
-  }
-
-  NewsDetailWebPage(this.news);
-
   @override
   State<StatefulWidget> createState() {
-    return NewsDetailWebPageState(news);
+    return NewsDetailWebPageState();
   }
 
 }
@@ -33,8 +21,6 @@ class NewsDetailWebPageState extends State<NewsDetailWebPage> with TickerProvide
 
   bool _saved;
 
-  NewsDetailWebPageState(this.news);
-
   @override
   void initState() {
     _saved = false;
@@ -44,6 +30,8 @@ class NewsDetailWebPageState extends State<NewsDetailWebPage> with TickerProvide
 
   @override
   Widget build(BuildContext context) {
+
+    news = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(

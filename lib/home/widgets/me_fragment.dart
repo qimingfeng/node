@@ -58,7 +58,7 @@ class MeFragmentState extends State<MeFragment> {
     return Container(
       child: ListTile(
           onTap: () {
-            MyFavouritePage.push(context);
+            Navigator.pushNamed(context, "/MyFavouritePage",);
           },
           leading: Container(
             child: Icon(Icons.star,),

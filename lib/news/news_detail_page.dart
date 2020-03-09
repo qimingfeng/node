@@ -7,26 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:node/common/constants.dart';
 import 'package:node/news/model/news_detail.dart';
 
-import 'model/news.dart';
-
 class NewsDetailPage extends StatefulWidget {
-
-  News news;
-
-  NewsDetailPage(this.news);
-
-  static void push(BuildContext context, News news) {
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-          builder: (context) {
-            return new NewsDetailPage(news);
-          }),
-    );
-  }
 
   @override
   State<StatefulWidget> createState() {
-    return new NewsDetailPageSate(news.id);
+    return new NewsDetailPageSate();
   }
 
 }
@@ -42,12 +27,9 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
   RegExp _imgReg = new RegExp(r"\[img][\S\s]*?\[/img]");
   RegExp _urlReg = new RegExp("src=\"[\\S\\s]*?\"");
 
-  NewsDetailPageSate(this.newsId);
-
   @override
   void initState() {
     super.initState();
-
     _fetchDetail(newsId)
         .then((result) {
           _newsDetail = result;
@@ -61,7 +43,7 @@ class NewsDetailPageSate extends State<NewsDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    newsId = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(_newsDetail == null ? "" : _newsDetail.title),

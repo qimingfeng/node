@@ -6,11 +6,6 @@ import 'package:node/news/news_list_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyFavouritePage extends StatefulWidget {
-  static push(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return MyFavouritePage();
-    }));
-  }
 
   @override
   State<StatefulWidget> createState() {

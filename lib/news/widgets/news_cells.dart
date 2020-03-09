@@ -5,7 +5,6 @@ import 'package:node/common/date_utils.dart';
 import 'package:node/news/news_list_page.dart';
 
 import '../model/news.dart';
-import '../news_detail_web_page.dart';
 
 class NewsCellNoImage extends StatelessWidget {
 
@@ -117,7 +116,7 @@ class NewsCellThreeImage extends StatelessWidget {
 class NewsCellUtils {
 
   static void onCellTap(BuildContext context, News news) {
-    NewsDetailWebPage.push(context, news);
+    Navigator.pushNamed(context, "/NewsDetailWebPage", arguments:news);
   }
 
   static Widget buildImage(BuildContext context, List<dynamic> imgs, int index) {
